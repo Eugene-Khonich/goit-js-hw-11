@@ -9,5 +9,6 @@ export const greateCards = imgInfo => {
       comments,
       downloads,
     }) => {}
-  );
+  )
+  return;
 };
