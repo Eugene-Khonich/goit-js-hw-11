@@ -1,5 +1,6 @@
 import iziToast from 'izitoast';
-import { fetchFotos } from './js/pixabay-api';
+import {fetchFotos} from './js/pixabay-api';
+import {greateCards} from './js/render-functions'
 
 const searchInput = document.querySelector('.input');
 const galleryList = document.querySelector('.gallery-list');
