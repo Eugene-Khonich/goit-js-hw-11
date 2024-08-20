@@ -1,5 +1,4 @@
 const BASE_URL = 'https://pixabay.com/api/';
-// https://pixabay.com/photos/search/dog/
 
 export const fetchFotos = searchValue => {
   const urlParams = new URLSearchParams({
