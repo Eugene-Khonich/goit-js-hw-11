@@ -14,6 +14,7 @@ const lightBox = new SimpleLightbox('.gallery-list a', {
 
 const onSearchSubmit = e => {
   e.preventDefault();
+  loader.classList.remove('hidden');
   const value = e.target.elements.inputField.value.toLowerCase().trim();
   if (!value) {
     iziToast.error({
@@ -21,9 +22,9 @@ const onSearchSubmit = e => {
       message: 'You need to type something on field!',
       position: 'topRight',
     });
+    loader.classList.add('hidden');
     return;
   }
-  loader.classList.remove('hidden');
   fetchPhotos(value)
     .then(img => {
       if (img.hits.length === 0) {
@@ -35,14 +36,14 @@ const onSearchSubmit = e => {
         loader.classList.add('hidden');
         return;
       } else {
-        loader.classList.add('hidden');
         greateCards(img.hits);
         lightBox.refresh();
+        loader.classList.add('hidden');
       }
     })
     .catch(err => {
       iziToast.error({
-        message: 'There is something wrong. Try again!',
+        message: `There is an Error ${err}. Try again!`,
         position: 'topRight',
       });
     });
