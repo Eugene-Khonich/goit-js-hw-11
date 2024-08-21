@@ -23,6 +23,7 @@ const onSearchSubmit = e => {
       position: 'topRight',
     });
     loader.classList.add('hidden');
+    galleryList.innerHTML = '';
     return;
   }
   fetchPhotos(value)
@@ -34,6 +35,7 @@ const onSearchSubmit = e => {
           position: 'topRight',
         });
         loader.classList.add('hidden');
+        galleryList.innerHTML = '';
         return;
       } else {
         greateCards(img.hits);
@@ -46,6 +48,7 @@ const onSearchSubmit = e => {
         message: `There is an Error ${err}. Try again!`,
         position: 'topRight',
       });
+      galleryList.innerHTML = '';
     });
   form.reset();
 };
