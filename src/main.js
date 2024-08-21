@@ -23,7 +23,6 @@ const onSearchSubmit = e => {
       position: 'topRight',
     });
     loader.classList.add('hidden');
-    galleryList.innerHTML = '';
     return;
   }
   fetchPhotos(value)
@@ -37,18 +36,17 @@ const onSearchSubmit = e => {
         loader.classList.add('hidden');
         galleryList.innerHTML = '';
         return;
-      } else {
-        greateCards(img.hits);
-        lightBox.refresh();
-        loader.classList.add('hidden');
       }
+      galleryList.innerHTML = '';
+      greateCards(img.hits);
+      lightBox.refresh();
+      loader.classList.add('hidden');
     })
     .catch(err => {
       iziToast.error({
         message: `There is an Error ${err}. Try again!`,
         position: 'topRight',
       });
-      galleryList.innerHTML = '';
     });
   form.reset();
 };
