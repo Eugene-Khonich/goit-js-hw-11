@@ -1,11 +1,11 @@
 import iziToast from 'izitoast';
 import SimpleLightbox from 'simplelightbox';
-import { fetchFotos } from './js/pixabay-api';
+import { fetchPhotos } from './js/pixabay-api';
 import { greateCards } from './js/render-functions';
 
 const form = document.querySelector('.form');
 const galleryList = document.querySelector('.gallery-list');
-
+const loader = document.querySelector('.loader');
 const lightBox = new SimpleLightbox('.gallery-list a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -23,9 +23,8 @@ const onSearchSubmit = e => {
     });
     return;
   }
-  galleryList.innerHTML = '<span class="loader"></span>';
-
-  fetchFotos(value)
+  loader.classList.remove('hidden');
+  fetchPhotos(value)
     .then(img => {
       if (img.hits.length === 0) {
         iziToast.error({
@@ -33,16 +32,19 @@ const onSearchSubmit = e => {
             'Sorry, there are no images matching your search query. Please try again!',
           position: 'topRight',
         });
-        galleryList.innerHTML = '';
+        loader.classList.add('hidden');
         return;
       } else {
-        galleryList.innerHTML = '';
+        loader.classList.add('hidden');
         greateCards(img.hits);
         lightBox.refresh();
       }
     })
     .catch(err => {
-      console.log(err);
+      iziToast.error({
+        message: 'There is something wrong. Try again!',
+        position: 'topRight',
+      });
     });
   form.reset();
 };

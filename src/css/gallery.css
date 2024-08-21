@@ -25,7 +25,6 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #263238;
 }
 @keyframes rotation {
   0% {
@@ -34,6 +33,9 @@
   100% {
     transform: rotate(360deg);
   }
+}
+.hidden {
+  display: none;
 }
 .gallery-item {
   position: relative;
