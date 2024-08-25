@@ -20,7 +20,6 @@ let cardHeight = 0;
 const onSearchSubmit = async e => {
   e.preventDefault();
   value = e.target.elements.inputField.value.toLowerCase().trim();
-  page = 1;
   if (!value) {
     iziToast.error({
       title: 'Error',
@@ -32,7 +31,8 @@ const onSearchSubmit = async e => {
   loader.classList.remove('hidden');
   try {
     const response = await fetchPhotos(value, page);
-    if (response.data.hits.length === 0) {
+    console.log(response);
+    if (response.data.hits === 0) {
       iziToast.error({
         message:
           'Sorry, there are no images matching your search query. Please try again!',
@@ -65,7 +65,6 @@ const onLoadMoreClick = async e => {
     greateCards(response.data.hits);
     const galleryCard = galleryList.querySelector('.gallery-item');
     cardHeight = galleryCard.getBoundingClientRect().height;
-    console.dir(cardHeight);
     scrollBy({
       top: cardHeight * 2,
       behavior: 'smooth',
@@ -73,7 +72,8 @@ const onLoadMoreClick = async e => {
     loader.classList.add('hidden');
     loadMore.classList.remove('hidden');
     lightBox.refresh();
-    if (page === response.data.totalHits) {
+    const totalPages = Math.ceil(images.totalHits / 15);
+    if (page > totalPages) {
       loadMore.classList.add('hidden');
       iziToast.err({
         message: "We're sorry, but you've reached the end of search results.",
