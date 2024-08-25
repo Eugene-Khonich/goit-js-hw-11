@@ -34,6 +34,29 @@
     transform: rotate(360deg);
   }
 }
+.load-more {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 125px;
+  height: 40px;
+  background: #4e75ff;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+  &:hover,
+  &:focus {
+    background: #6c8cff;
+  }
+}
 .hidden {
   display: none;
 }
