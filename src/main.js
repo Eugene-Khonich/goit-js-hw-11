@@ -16,10 +16,13 @@ const lightBox = new SimpleLightbox('.gallery-list a', {
 let value = '';
 let page = 1;
 let cardHeight = 0;
+let totalPages = 0;
+let perPage = 15;
 
 const onSearchSubmit = async e => {
   e.preventDefault();
   value = e.target.elements.inputField.value.toLowerCase().trim();
+  page = 1;
   if (!value) {
     iziToast.error({
       title: 'Error',
@@ -31,8 +34,7 @@ const onSearchSubmit = async e => {
   loader.classList.remove('hidden');
   try {
     const response = await fetchPhotos(value, page);
-    console.log(response);
-    if (response.data.hits === 0) {
+    if (response.data.total === 0) {
       iziToast.error({
         message:
           'Sorry, there are no images matching your search query. Please try again!',
@@ -58,11 +60,24 @@ const onSearchSubmit = async e => {
 
 const onLoadMoreClick = async e => {
   try {
+    page += 1;
     loadMore.classList.add('hidden');
     loader.classList.remove('hidden');
-    page++;
     const response = await fetchPhotos(value, page);
     greateCards(response.data.hits);
+    totalPages = response.data.totalHits;
+    console.log(response);
+    console.log(page);
+    console.log(totalPages);
+    if (page * perPage >= totalPages) {
+      iziToast.error({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+      loadMore.classList.add('hidden');
+      loader.classList.add('hidden');
+      return;
+    }
     const galleryCard = galleryList.querySelector('.gallery-item');
     cardHeight = galleryCard.getBoundingClientRect().height;
     scrollBy({
@@ -72,14 +87,6 @@ const onLoadMoreClick = async e => {
     loader.classList.add('hidden');
     loadMore.classList.remove('hidden');
     lightBox.refresh();
-    const totalPages = Math.ceil(images.totalHits / 15);
-    if (page > totalPages) {
-      loadMore.classList.add('hidden');
-      iziToast.err({
-        message: "We're sorry, but you've reached the end of search results.",
-        position: 'topRight',
-      });
-    }
   } catch (err) {
     iziToast.error({
       message: `There is an Error ${err}. Try again!`,

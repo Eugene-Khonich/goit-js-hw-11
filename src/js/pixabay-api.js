@@ -9,9 +9,9 @@ export function fetchPhotos(searchValue, page) {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: 'true',
-      per_page: 15,
       q: searchValue,
       page: page,
+      per_page: 15,
     },
   };
   return axios.get('', axiosOptions);
